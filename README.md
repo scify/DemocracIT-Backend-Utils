@@ -19,5 +19,3 @@ This catalogue contains all the backend utility modules for the democracit proje
 The model representation of the democracit DB schema
 #### <i class="icon-folder-open"></i> DemoUtils
 general utility module, for DBAccess, Logging, etc
-=======
-# DemocracIT-Backend-Utils
