@@ -19,19 +19,47 @@ public class Consultation {
     private Timestamp end_date;
     private String title;
     private String short_description;
+    private String consultation_url;
+    private Integer completed;
+    private String completed_text;
+    private String report_text;
+    private String report_url;
+    private Integer art_num;
 
     public Consultation(long id, long organization_id) {
         this.id = id;
         this.organization_id = organization_id;
     }
 
-    public Consultation(long id, Timestamp start_date, Timestamp end_date, String title, String short_description, long organization_id) {
+    public Consultation(long id, long organization_id, Timestamp start_date, Timestamp end_date, String title, String short_description,
+            String consultation_url) {
         this.id = id;
         this.start_date = start_date;
         this.end_date = end_date;
         this.title = title;
         this.short_description = short_description;
         this.organization_id = organization_id;
+        this.consultation_url = consultation_url;
+    }
+
+    public Consultation(long id, long organization_id,
+            Timestamp start_date, Timestamp end_date,
+            String title, String short_description,
+            String consultation_url, Integer completed,
+            String completed_text, String report_text,
+            String report_url, Integer art_num) {
+        this.id = id;
+        this.organization_id = organization_id;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.title = title;
+        this.short_description = short_description;
+        this.consultation_url = consultation_url;
+        this.completed = completed;
+        this.completed_text = completed_text;
+        this.report_text = report_text;
+        this.report_url = report_url;
+        this.art_num = art_num;
     }
 
     public Timestamp getStartDate() {
@@ -42,24 +70,12 @@ public class Consultation {
         return end_date;
     }
 
-    public void setEndDate(Timestamp end_date) {
-        this.end_date = end_date;
-    }
-
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getShortDescription() {
         return short_description;
-    }
-
-    public void setShortDescription(String short_description) {
-        this.short_description = short_description;
     }
 
     public long getID() {
@@ -68,6 +84,30 @@ public class Consultation {
 
     public long getOrganizationID() {
         return organization_id;
+    }
+
+    public String getConsultation_url() {
+        return consultation_url;
+    }
+
+    public Integer getCompleted() {
+        return completed;
+    }
+
+    public String getCompleted_text() {
+        return completed_text;
+    }
+
+    public Integer getArticlesCnt() {
+        return art_num;
+    }
+
+    public String getReportText() {
+        return report_text;
+    }
+
+    public String getReportURL() {
+        return report_url;
     }
 
     @Override
@@ -94,7 +134,19 @@ public class Consultation {
 
     @Override
     public String toString() {
-        return "Consultation{" + "id=" + id + ", start_date=" + start_date + ", end_date=" + end_date + ", title=" + title + ", short_description=" + short_description + ", organization_id=" + organization_id + '}';
+        return "Consultation{" + "id=" + id
+                + ", organization_id=" + organization_id
+                + ", start_date=" + start_date
+                + ", end_date=" + end_date
+                + ", title=" + title
+                + ", short_description=" + short_description
+                + ", consultation_url=" + consultation_url
+                + ", completed=" + completed
+                + ", completed_text=" + completed_text
+                + ", report_text=" + report_text
+                + ", report_url=" + report_url
+                + ", art_num=" + art_num
+                + '}';
     }
 
 }

@@ -16,18 +16,20 @@ public class Article {
     private String title;
     private String body;
     private int order;
+    private int comment_num;
 
     public Article(long id, long consultation_id) {
         this.id = id;
         this.consultation_id = consultation_id;
     }
 
-    public Article(long id, long consultation_id, String title, String body, int order) {
+    public Article(long id, long consultation_id, String title, String body, int order, int comment_num) {
         this.id = id;
         this.consultation_id = consultation_id;
         this.title = title;
         this.body = body;
         this.order = order;
+        this.comment_num = comment_num;
     }
 
     public String getTitle() {
@@ -50,16 +52,16 @@ public class Article {
         return order;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
-    }
-
     public long getID() {
         return id;
     }
 
     public long getConsultationID() {
         return consultation_id;
+    }
+
+    public int getComment_num() {
+        return comment_num;
     }
 
     @Override
@@ -90,7 +92,13 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article{" + "id=" + id + ", consultation_id=" + consultation_id + ", title=" + title + ", body=" + body + ", order=" + order + '}';
+        return "Article{" + "id=" + id
+                + ", consultation_id=" + consultation_id
+                + ", title=" + title
+                + ", body=" + body
+                + ", order=" + order
+                + ", comment_num=" + comment_num
+                + '}';
     }
 
 }

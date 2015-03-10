@@ -22,8 +22,14 @@ public class Comment {
     private long discussion_thread_id;
     private long user_id;
     private Timestamp date_added;
+    private int revision;
+    private String depth;
+    private long initialid;
 
-    public Comment(long id, String url_source, long article_id, long parent_id, String comment, long source_type_id, long discussion_thread_id, long user_id, Timestamp date_added) {
+    public Comment(long id, String url_source, long article_id,
+            long parent_id, String comment, long source_type_id,
+            long discussion_thread_id, long user_id, Timestamp date_added,
+            int revision, String depth, long initialId) {
         this.id = id;
         this.url_source = url_source;
         this.article_id = article_id;
@@ -33,6 +39,9 @@ public class Comment {
         this.discussion_thread_id = discussion_thread_id;
         this.user_id = user_id;
         this.date_added = date_added;
+        this.revision = revision;
+        this.depth = depth;
+        this.initialid = initialId;
     }
 
     public long getID() {
@@ -55,10 +64,6 @@ public class Comment {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public long getSourceTypeID() {
         return source_type_id;
     }
@@ -73,6 +78,18 @@ public class Comment {
 
     public Timestamp getDateAdded() {
         return date_added;
+    }
+
+    public int getRevision() {
+        return revision;
+    }
+
+    public String getDepth() {
+        return depth;
+    }
+
+    public long getInitialID() {
+        return initialid;
     }
 
     @Override
@@ -103,7 +120,7 @@ public class Comment {
 
     @Override
     public String toString() {
-        return "Comment{" + "id=" + id + ", url_source=" + url_source + ", article_id=" + article_id + ", parent_id=" + parent_id + ", comment=" + comment + ", source_type_id=" + source_type_id + ", discussion_thread_id=" + discussion_thread_id + ", user_id=" + user_id + ", date_added=" + date_added + '}';
+        return "Comment{" + "id=" + id + ", url_source=" + url_source + ", article_id=" + article_id + ", parent_id=" + parent_id + ", comment=" + comment + ", source_type_id=" + source_type_id + ", discussion_thread_id=" + discussion_thread_id + ", user_id=" + user_id + ", date_added=" + date_added + ", revision=" + revision + ", depth=" + depth + ", initialid=" + initialid + '}';
     }
 
 }
