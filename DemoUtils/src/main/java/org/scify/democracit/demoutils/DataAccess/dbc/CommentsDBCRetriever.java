@@ -7,8 +7,8 @@ package org.scify.democracit.demoutils.DataAccess.dbc;
 
 import java.sql.Connection;
 import java.util.Iterator;
+import org.scify.democracit.dao.model.Comments;
 import org.scify.democracit.demoutils.DataAccess.DBUtils.SQLQueryGenerator;
-import org.scify.democracit.model.Comment;
 
 /**
  * Fetches required comments from the DB. Can be instantiated with a raw SQL
@@ -29,7 +29,7 @@ public class CommentsDBCRetriever extends AbstractDBCAccess implements IComments
      * results found, return an empty list
      */
     @Override
-    public Iterator<Comment> getCommentIteratorPerConsultationID(long iConsultationID) {
+    public Iterator<Comments> getCommentIteratorPerConsultationID(long iConsultationID) {
         System.out.println("\tAcquiring comments for consultation...");
         // get the appropriate sql
         String SQL = new SQLQueryGenerator().generateCommentsSQLPerConsultation(iConsultationID);
@@ -47,7 +47,7 @@ public class CommentsDBCRetriever extends AbstractDBCAccess implements IComments
      * results found, return an empty list
      */
     @Override
-    public Iterator<Comment> getCommentIteratorPerArticleID(long iArticleID) {
+    public Iterator<Comments> getCommentIteratorPerArticleID(long iArticleID) {
         System.out.println("\tAcquiring comments for article...");
         // get the appropriate sql
         String SQL = new SQLQueryGenerator().generateCommentsSQLPerArticle(iArticleID);

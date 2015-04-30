@@ -5,11 +5,20 @@
  */
 package org.scify.democracit.demoutils.logging;
 
+import java.util.logging.Logger;
+
 /**
  *
  * @author George K.<gkiom@iit.demokritos.gr>
  */
 public interface ILogger {
+
+    static final Logger log = Logger.getLogger(ILogger.class.getName());
+    static final String CONSULTATION = "consultation";
+    static final String ARTICLE = "article";
+    static final String STATUS_ERROR = "Error";
+    static final String STATUS_SUCCESS = "Success";
+    static final String STATUS_PENDING = "Pending";
 
     void info(String message);
 

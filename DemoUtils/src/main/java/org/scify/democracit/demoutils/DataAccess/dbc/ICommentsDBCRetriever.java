@@ -6,7 +6,7 @@
 package org.scify.democracit.demoutils.DataAccess.dbc;
 
 import java.util.Iterator;
-import org.scify.democracit.model.Comment;
+import org.scify.democracit.dao.model.Comments;
 
 /**
  *
@@ -14,7 +14,7 @@ import org.scify.democracit.model.Comment;
  */
 public interface ICommentsDBCRetriever {
 
-    public Iterator<Comment> getCommentIteratorPerConsultationID(long iConsultationID);
+    public Iterator<Comments> getCommentIteratorPerConsultationID(long iConsultationID);
 
-    public Iterator<Comment> getCommentIteratorPerArticleID(long iArticleID);
+    public Iterator<Comments> getCommentIteratorPerArticleID(long iArticleID);
 }

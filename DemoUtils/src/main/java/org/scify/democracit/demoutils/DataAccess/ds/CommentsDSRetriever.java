@@ -13,9 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 import javax.swing.text.AbstractDocument.Content;
+import org.scify.democracit.dao.model.Articles;
+import org.scify.democracit.dao.model.Comments;
+import org.scify.democracit.dao.model.DiscussionThread;
+import org.scify.democracit.dao.model.SourceTypeLkp;
+import org.scify.democracit.dao.model.Users;
 import org.scify.democracit.demoutils.DataAccess.DBUtils.SQLQueryGenerator;
 import org.scify.democracit.demoutils.DataAccess.DBUtils.SQLUtils;
-import org.scify.democracit.model.Comment;
 
 /**
  * Fetches required comments from the DB. Can be instantiated with a DataSource
@@ -23,7 +27,7 @@ import org.scify.democracit.model.Comment;
  *
  * @author George K.<gkiom@scify.org>
  */
-public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsDSRetriever {
+public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsRetriever {
 
     /**
      * Preferred method
@@ -42,7 +46,7 @@ public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsDS
      * @throws SQLException
      */
     @Override
-    public List<Comment> getCommentsPerConsultationID(int iConsultationID) throws SQLException {
+    public List<Comments> getCommentsPerConsultationID(int iConsultationID) throws SQLException {
         System.out.println("\tAcquiring comments...");
         List lsRes = new ArrayList<>();
         // get the appropriate sql
@@ -56,11 +60,11 @@ public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsDS
     /**
      *
      * @param iArticleID the consultation ID that the comments belong to
-     * @return the {@link Content} that is relevant to the parameters
+     * @return the {@link Comments} that is relevant to the parameters
      * @throws SQLException
      */
     @Override
-    public List<Comment> getCommentsPerArticleID(int iArticleID) throws SQLException {
+    public List<Comments> getCommentsPerArticleID(int iArticleID) throws SQLException {
         System.out.println("\tAcquiring comments...");
         List lsRes = new ArrayList<>();
         // get the appropriate sql
@@ -74,20 +78,16 @@ public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsDS
     /**
      *
      * @param sql The SQL SELECT to apply
-     * @return a list of {@link Comment} returned from the DB. If no results
+     * @return a list of {@link Comments} returned from the DB. If no results
      * found, return an empty list
      * @throws SQLException
      */
-    private List<Comment> getCommentsFromDB(String sql, int iConOrArtID) throws SQLException {
-        List<Comment> lsRes = new ArrayList<>();
+    private List<Comments> getCommentsFromDB(String sql, int iConOrArtID) throws SQLException {
+        List<Comments> lsRes = new ArrayList<>();
         Connection dbConn = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            // tell the driver to fetch one row at a time
-//            preparedStatement = dbConnection.prepareStatement(sql,
-//                    ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-//            preparedStatement.setFetchSize(Integer.MIN_VALUE);
 
             dbConn = dataSource.getConnection();
 
@@ -107,8 +107,17 @@ public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsDS
                 // if content is OK
                 if (comment != null
                         && !comment.trim().isEmpty()) {
-                    // return it    
-                    lsRes.add(new Comment(id, url_source, article_id, parent_id, comment, source_type_id, discussion_thread_id, user_id, date_added));
+                    Comments tmp = new Comments(id);
+                    tmp.setUrlSource(url_source);
+                    tmp.setArticleId(new Articles(article_id));
+                    tmp.setParentId(new Comments(parent_id));
+                    tmp.setComment(comment);
+                    tmp.setSourceTypeId(new SourceTypeLkp((short) source_type_id));
+                    tmp.setDiscussionThreadId(new DiscussionThread(discussion_thread_id));
+                    tmp.setUserId(new Users(user_id));
+                    tmp.setDateAdded(date_added);
+                    // add to result list
+                    lsRes.add(tmp);
                 }
             }
         } finally {

@@ -12,9 +12,13 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.scify.democracit.dao.model.Articles;
+import org.scify.democracit.dao.model.Comments;
+import org.scify.democracit.dao.model.DiscussionThread;
+import org.scify.democracit.dao.model.SourceTypeLkp;
+import org.scify.democracit.dao.model.Users;
 import org.scify.democracit.demoutils.DataAccess.DBUtils.SqlQueryBlockIterable;
 import org.scify.democracit.demoutils.DataAccess.DBUtils.SqlQueryBlockIterator;
-import org.scify.democracit.model.Comment;
 
 /**
  *
@@ -25,7 +29,7 @@ public class AbstractDBCAccess {
     protected Connection dbConnection;
 
     public static final String DB_CONN_ERROR = "Provide a valid database connection";
-    
+
     public AbstractDBCAccess(Connection dbConnection) {
         this.dbConnection = dbConnection;
     }
@@ -35,7 +39,7 @@ public class AbstractDBCAccess {
      *
      * @author George K.<gkiom@iit.demokritos.gr>
      */
-    public class CommentIterator implements Iterator<Comment> {
+    public class CommentIterator implements Iterator<Comments> {
 
         Connection dbConnection;
         SqlQueryBlockIterable iResultSet;
@@ -52,7 +56,7 @@ public class AbstractDBCAccess {
         }
 
         @Override
-        public Comment next() {
+        public Comments next() {
             try {
                 // Read next item
                 ResultSet next = iRSetIter.next();
@@ -69,8 +73,17 @@ public class AbstractDBCAccess {
                 // if content is OK
                 if (comment != null
                         && !comment.trim().isEmpty()) {
-                    // return it    
-                    return new Comment(id, url_source, article_id, parent_id, comment, source_type_id, discussion_thread_id, user_id, date_added);
+                    // return it   
+                    Comments tmp = new Comments(id);
+                    tmp.setUrlSource(url_source);
+                    tmp.setArticleId(new Articles(article_id));
+                    tmp.setParentId(new Comments(parent_id));
+                    tmp.setComment(comment);
+                    tmp.setSourceTypeId(new SourceTypeLkp((short) source_type_id));
+                    tmp.setDiscussionThreadId(new DiscussionThread(discussion_thread_id));
+                    tmp.setUserId(new Users(user_id));
+                    tmp.setDateAdded(date_added);
+                    return tmp;
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(CommentIterator.class.getName()).log(Level.SEVERE, null, ex);

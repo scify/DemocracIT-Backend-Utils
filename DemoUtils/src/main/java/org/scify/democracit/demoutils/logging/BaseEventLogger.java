@@ -7,7 +7,6 @@ package org.scify.democracit.demoutils.logging;
 
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 /**
@@ -17,14 +16,8 @@ import javax.sql.DataSource;
 public class BaseEventLogger implements ILogger {
 
     protected DataSource dataSource;
-    protected static final Logger log = Logger.getLogger(DBAEventLogger.class.getName());
-    public static final String CONSULTATION = "consultation";
-    public static final String ARTICLE = "article";
-
-    public static final String STATUS_ERROR = "Error";
-    public static final String STATUS_SUCCESS = "Success";
-    public static final String STATUS_PENDING = "Pending";
-
+    
+    
     @Override
     public void success(long activity_id, String message) {
         log.log(Level.INFO, message);

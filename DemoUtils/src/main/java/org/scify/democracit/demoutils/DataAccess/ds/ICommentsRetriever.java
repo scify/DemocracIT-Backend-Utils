@@ -7,16 +7,16 @@ package org.scify.democracit.demoutils.DataAccess.ds;
 
 import java.sql.SQLException;
 import java.util.List;
-import org.scify.democracit.model.Comment;
+import org.scify.democracit.dao.model.Comments;
 
 /**
  *
  * @author George K. <gkiom@scify.org>
  */
-public interface ICommentsDSRetriever {
+public interface ICommentsRetriever {
 
-    public List<Comment> getCommentsPerConsultationID(int iConsultationID) throws SQLException;
+    public List<Comments> getCommentsPerConsultationID(int iConsultationID) throws SQLException;
 
-    public List<Comment> getCommentsPerArticleID(int iArticleID) throws SQLException;
+    public List<Comments> getCommentsPerArticleID(int iArticleID) throws SQLException;
 
 }

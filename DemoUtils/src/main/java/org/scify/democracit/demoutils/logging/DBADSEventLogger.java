@@ -17,11 +17,11 @@ import org.scify.democracit.demoutils.DataAccess.ILoggingDBA;
  *
  * @author George K. <gkiom@scify.org>
  */
-public class DBAEventLogger extends BaseEventLogger {
+public class DBADSEventLogger extends BaseEventLogger {
 
     private final ILoggingDBA dbalogger;
 
-    public DBAEventLogger(DataSource dataSource) {
+    public DBADSEventLogger(DataSource dataSource) {
         this.dbalogger = new DefaultLoggingDBA(dataSource);
     }
 

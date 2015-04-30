@@ -12,14 +12,6 @@ import java.util.Map;
  * @author George K. <gkiom@scify.org>
  */
 public interface ILoggingDBA {
-
-    /**
-     *
-     * @param actionName the action name, i.e. 'crawling'
-     * @return the ID of the action in the schema
-     */
-    int acquireActionID(String actionName);
-
     /**
      *
      * @param moduleName the module name, i.e. 'crawler'

@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document.OutputSettings;
 import org.jsoup.nodes.Entities;
 import org.jsoup.safety.Whitelist;
-import org.scify.democracit.model.Comment;
+import org.scify.democracit.dao.model.Comments;
 
 /**
  *
@@ -30,7 +30,7 @@ public class HtmlDocumentCleaner {
         }
     }
 
-    public static Comment cleanCommentFromHtml(Comment cComment) {
+    public static Comments cleanCommentFromHtml(Comments cComment) {
         String text = cComment.getComment();
         text = cleanDocumentToPlainText(text);
         cComment.setComment(text);

@@ -49,29 +49,29 @@ public class DefaultLoggingDBA extends AbstractDSAccess implements ILoggingDBA {
         }
         return iRes;
     }
-
-    @Override
-    public int acquireActionID(String actionName) {
-        int iRes = 0;
-        String SQL = "SELECT id FROM log.action_lkp WHERE name=? LIMIT 1;";
-        Connection dbConnection = null;
-        PreparedStatement pStmt = null;
-        ResultSet rSet = null;
-        try {
-            dbConnection = dataSource.getConnection();
-            pStmt = dbConnection.prepareStatement(SQL);
-            pStmt.setString(1, actionName);
-            rSet = pStmt.executeQuery();
-            while (rSet.next()) {
-                iRes = rSet.getInt(1);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DefaultLoggingDBA.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
-        } finally {
-            SQLUtils.release(dbConnection, pStmt, rSet);
-        }
-        return iRes;
-    }
+//
+//    @Override
+//    public int acquireActionID(String actionName) {
+//        int iRes = 0;
+//        String SQL = "SELECT id FROM log.action_lkp WHERE name=? LIMIT 1;";
+//        Connection dbConnection = null;
+//        PreparedStatement pStmt = null;
+//        ResultSet rSet = null;
+//        try {
+//            dbConnection = dataSource.getConnection();
+//            pStmt = dbConnection.prepareStatement(SQL);
+//            pStmt.setString(1, actionName);
+//            rSet = pStmt.executeQuery();
+//            while (rSet.next()) {
+//                iRes = rSet.getInt(1);
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DefaultLoggingDBA.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
+//        } finally {
+//            SQLUtils.release(dbConnection, pStmt, rSet);
+//        }
+//        return iRes;
+//    }
 
     @Override
     public int acquireStatusID(String statusName) {
