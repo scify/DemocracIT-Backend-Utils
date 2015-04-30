@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="org.scify_DemoModel_jar_0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>org.scify.democracit.dao.model.RelevantMaterial</class>
+    <class>org.scify.democracit.dao.model.CommentTerm</class>
+    <class>org.scify.democracit.dao.model.OrganizationLkp</class>
+    <class>org.scify.democracit.dao.model.Articles</class>
+    <class>org.scify.democracit.dao.model.ArticleEntities</class>
+    <class>org.scify.democracit.dao.model.RelevantMat</class>
+    <class>org.scify.democracit.dao.model.CommentOpengov</class>
+    <class>org.scify.democracit.dao.model.Users</class>
+    <class>org.scify.democracit.dao.model.Consultation</class>
+    <class>org.scify.democracit.dao.model.SourceTypeLkp</class>
+    <class>org.scify.democracit.dao.model.DiscussionThread</class>
+    <class>org.scify.democracit.dao.model.Activities</class>
+    <class>org.scify.democracit.dao.model.ConsultationSkipList</class>
+    <class>org.scify.democracit.dao.model.StatusLkp</class>
+    <class>org.scify.democracit.dao.model.ActivitySteps</class>
+    <class>org.scify.democracit.dao.model.ModuleLkp</class>
+    <class>org.scify.democracit.dao.model.ActivityStepTypeLkp</class>
+    <class>org.scify.democracit.dao.model.Comments</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="db_host"/>
+      <property name="javax.persistence.jdbc.password" value="db_pw"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="db_user"/>
+    </properties>
+  </persistence-unit>
+</persistence>
