@@ -20,11 +20,12 @@
     <class>org.scify.democracit.dao.model.ModuleLkp</class>
     <class>org.scify.democracit.dao.model.ActivityStepTypeLkp</class>
     <class>org.scify.democracit.dao.model.Comments</class>
+    <class>org.scify.democracit.dao.model.DiscussionThreadTypes</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="db_host"/>
-      <property name="javax.persistence.jdbc.password" value="db_pw"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.user" value="db_user"/>
+      <property name="javax.persistence.jdbc.url" value="database_location"/>
+      <property name="javax.persistence.jdbc.password" value="pw_here"/>
+      <property name="javax.persistence.jdbc.user" value="user_here"/>
     </properties>
   </persistence-unit>
 </persistence>

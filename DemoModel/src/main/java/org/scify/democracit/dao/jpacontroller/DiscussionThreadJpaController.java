@@ -3,26 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.scify.democracit.dao.jpacontroller;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.scify.democracit.dao.model.Comments;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import org.scify.democracit.dao.jpacontroller.exceptions.NonexistentEntityException;
 import org.scify.democracit.dao.model.DiscussionThread;
+import org.scify.democracit.dao.model.DiscussionThreadTypes;
 
 /**
  *
- * @author George K.<gkiom@iit.demokritos.gr>
+ * @author George K. <gkiom@scify.org>
  */
 public class DiscussionThreadJpaController implements Serializable {
 
@@ -36,28 +33,19 @@ public class DiscussionThreadJpaController implements Serializable {
     }
 
     public void create(DiscussionThread discussionThread) {
-        if (discussionThread.getCommentsCollection() == null) {
-            discussionThread.setCommentsCollection(new ArrayList<Comments>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Collection<Comments> attachedCommentsCollection = new ArrayList<Comments>();
-            for (Comments commentsCollectionCommentsToAttach : discussionThread.getCommentsCollection()) {
-                commentsCollectionCommentsToAttach = em.getReference(commentsCollectionCommentsToAttach.getClass(), commentsCollectionCommentsToAttach.getId());
-                attachedCommentsCollection.add(commentsCollectionCommentsToAttach);
+            DiscussionThreadTypes typeid = discussionThread.getTypeid();
+            if (typeid != null) {
+                typeid = em.getReference(typeid.getClass(), typeid.getId());
+                discussionThread.setTypeid(typeid);
             }
-            discussionThread.setCommentsCollection(attachedCommentsCollection);
             em.persist(discussionThread);
-            for (Comments commentsCollectionComments : discussionThread.getCommentsCollection()) {
-                DiscussionThread oldDiscussionThreadIdOfCommentsCollectionComments = commentsCollectionComments.getDiscussionThreadId();
-                commentsCollectionComments.setDiscussionThreadId(discussionThread);
-                commentsCollectionComments = em.merge(commentsCollectionComments);
-                if (oldDiscussionThreadIdOfCommentsCollectionComments != null) {
-                    oldDiscussionThreadIdOfCommentsCollectionComments.getCommentsCollection().remove(commentsCollectionComments);
-                    oldDiscussionThreadIdOfCommentsCollectionComments = em.merge(oldDiscussionThreadIdOfCommentsCollectionComments);
-                }
+            if (typeid != null) {
+                typeid.getDiscussionThreadCollection().add(discussionThread);
+                typeid = em.merge(typeid);
             }
             em.getTransaction().commit();
         } finally {
@@ -73,32 +61,20 @@ public class DiscussionThreadJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             DiscussionThread persistentDiscussionThread = em.find(DiscussionThread.class, discussionThread.getId());
-            Collection<Comments> commentsCollectionOld = persistentDiscussionThread.getCommentsCollection();
-            Collection<Comments> commentsCollectionNew = discussionThread.getCommentsCollection();
-            Collection<Comments> attachedCommentsCollectionNew = new ArrayList<Comments>();
-            for (Comments commentsCollectionNewCommentsToAttach : commentsCollectionNew) {
-                commentsCollectionNewCommentsToAttach = em.getReference(commentsCollectionNewCommentsToAttach.getClass(), commentsCollectionNewCommentsToAttach.getId());
-                attachedCommentsCollectionNew.add(commentsCollectionNewCommentsToAttach);
+            DiscussionThreadTypes typeidOld = persistentDiscussionThread.getTypeid();
+            DiscussionThreadTypes typeidNew = discussionThread.getTypeid();
+            if (typeidNew != null) {
+                typeidNew = em.getReference(typeidNew.getClass(), typeidNew.getId());
+                discussionThread.setTypeid(typeidNew);
             }
-            commentsCollectionNew = attachedCommentsCollectionNew;
-            discussionThread.setCommentsCollection(commentsCollectionNew);
             discussionThread = em.merge(discussionThread);
-            for (Comments commentsCollectionOldComments : commentsCollectionOld) {
-                if (!commentsCollectionNew.contains(commentsCollectionOldComments)) {
-                    commentsCollectionOldComments.setDiscussionThreadId(null);
-                    commentsCollectionOldComments = em.merge(commentsCollectionOldComments);
-                }
+            if (typeidOld != null && !typeidOld.equals(typeidNew)) {
+                typeidOld.getDiscussionThreadCollection().remove(discussionThread);
+                typeidOld = em.merge(typeidOld);
             }
-            for (Comments commentsCollectionNewComments : commentsCollectionNew) {
-                if (!commentsCollectionOld.contains(commentsCollectionNewComments)) {
-                    DiscussionThread oldDiscussionThreadIdOfCommentsCollectionNewComments = commentsCollectionNewComments.getDiscussionThreadId();
-                    commentsCollectionNewComments.setDiscussionThreadId(discussionThread);
-                    commentsCollectionNewComments = em.merge(commentsCollectionNewComments);
-                    if (oldDiscussionThreadIdOfCommentsCollectionNewComments != null && !oldDiscussionThreadIdOfCommentsCollectionNewComments.equals(discussionThread)) {
-                        oldDiscussionThreadIdOfCommentsCollectionNewComments.getCommentsCollection().remove(commentsCollectionNewComments);
-                        oldDiscussionThreadIdOfCommentsCollectionNewComments = em.merge(oldDiscussionThreadIdOfCommentsCollectionNewComments);
-                    }
-                }
+            if (typeidNew != null && !typeidNew.equals(typeidOld)) {
+                typeidNew.getDiscussionThreadCollection().add(discussionThread);
+                typeidNew = em.merge(typeidNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -129,10 +105,10 @@ public class DiscussionThreadJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The discussionThread with id " + id + " no longer exists.", enfe);
             }
-            Collection<Comments> commentsCollection = discussionThread.getCommentsCollection();
-            for (Comments commentsCollectionComments : commentsCollection) {
-                commentsCollectionComments.setDiscussionThreadId(null);
-                commentsCollectionComments = em.merge(commentsCollectionComments);
+            DiscussionThreadTypes typeid = discussionThread.getTypeid();
+            if (typeid != null) {
+                typeid.getDiscussionThreadCollection().remove(discussionThread);
+                typeid = em.merge(typeid);
             }
             em.remove(discussionThread);
             em.getTransaction().commit();

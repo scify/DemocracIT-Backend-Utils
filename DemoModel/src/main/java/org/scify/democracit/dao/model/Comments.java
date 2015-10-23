@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,6 +45,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Comments.findByDepth", query = "SELECT c FROM Comments c WHERE c.depth = :depth")
 })
 public class Comments implements Serializable {
+    @Lob
+    @Column(name = "user_id")
+    private String userId;
+    @Column(name = "annotatedtext")
+    private String annotatedtext;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,9 +73,7 @@ public class Comments implements Serializable {
     private Collection<CommentTerm> commentTermCollection;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "comments")
     private CommentOpengov commentOpengov;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
-    private Users userId;
+
     @JoinColumn(name = "source_type_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private SourceTypeLkp sourceTypeId;
@@ -162,13 +166,6 @@ public class Comments implements Serializable {
         this.commentOpengov = commentOpengov;
     }
 
-    public Users getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Users userId) {
-        this.userId = userId;
-    }
 
     public SourceTypeLkp getSourceTypeId() {
         return sourceTypeId;
@@ -234,6 +231,22 @@ public class Comments implements Serializable {
     @Override
     public String toString() {
         return "org.scify.democracit.dao.model.Comments[ id=" + id + " ]";
+    }
+
+    public Object getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getAnnotatedtext() {
+        return annotatedtext;
+    }
+
+    public void setAnnotatedtext(String annotatedtext) {
+        this.annotatedtext = annotatedtext;
     }
 
 }

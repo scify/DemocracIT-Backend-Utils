@@ -52,11 +52,7 @@ public class CommentsJPARetriever implements ICommentsRetriever {
     public List<Comments> getCommentsPerConsultationID(int iConsultationID) throws SQLException {
         List<Comments> comments = new ArrayList();
         Consultation cons = consultationController.findConsultation(new Long(iConsultationID));
-        Collection<Articles> articles = cons.getArticlesCollection();
-        for (Articles eachArt : articles) {
-            Collection<Comments> commentsPerArt = eachArt.getCommentsCollection();
-            comments.addAll(commentsPerArt);
-        }
+        comments.addAll(consultationController.findCommentsPerConsultation(cons));
         return comments;
     }
 

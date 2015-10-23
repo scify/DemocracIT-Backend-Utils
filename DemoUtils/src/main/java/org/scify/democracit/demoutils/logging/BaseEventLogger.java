@@ -56,15 +56,15 @@ public class BaseEventLogger implements ILogger {
     }
 
     @Override
-    public void finalizedActivity(long activity_id, int consultation_id, String moduleName) {
+    public void finalizedActivity(long activity_id, int process_id, String moduleName) {
         success(activity_id, String.format("Finalized ".concat(moduleName).concat(" on %s for %s ID: %d%n"),
-                new Date(), CONSULTATION, consultation_id));
+                new Date(), CONSULTATION, process_id));
     }
 
     @Override
-    public void finalizedActivity(long activity_id, int consultation_id, String moduleName, String JSONmsg) {
+    public void finalizedActivity(long activity_id, int process_id, String moduleName, String JSONmsg) {
         success(activity_id, String.format("Finalized ".concat(moduleName).concat(" on %s for %s ID: %d%n"),
-                new Date(), CONSULTATION, consultation_id));
+                new Date(), CONSULTATION, process_id));
     }
 
 }

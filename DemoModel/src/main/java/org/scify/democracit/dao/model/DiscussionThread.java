@@ -3,27 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.scify.democracit.dao.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author George K.<gkiom@iit.demokritos.gr>
+ * @author George K. <gkiom@scify.org>
  */
 @Entity
 @Table(name = "discussion_thread")
@@ -31,8 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "DiscussionThread.findAll", query = "SELECT d FROM DiscussionThread d"),
     @NamedQuery(name = "DiscussionThread.findById", query = "SELECT d FROM DiscussionThread d WHERE d.id = :id"),
-    @NamedQuery(name = "DiscussionThread.findByFrom", query = "SELECT d FROM DiscussionThread d WHERE d.from = :from"),
-    @NamedQuery(name = "DiscussionThread.findByTo", query = "SELECT d FROM DiscussionThread d WHERE d.to = :to")})
+    @NamedQuery(name = "DiscussionThread.findByRelatedtext", query = "SELECT d FROM DiscussionThread d WHERE d.relatedtext = :relatedtext"),
+    @NamedQuery(name = "DiscussionThread.findByTagid", query = "SELECT d FROM DiscussionThread d WHERE d.tagid = :tagid")})
 public class DiscussionThread implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,13 +39,14 @@ public class DiscussionThread implements Serializable {
     @Column(name = "id")
     private Long id;
     @Basic(optional = false)
-    @Column(name = "from")
-    private short from;
+    @Column(name = "relatedtext")
+    private String relatedtext;
     @Basic(optional = false)
-    @Column(name = "to")
-    private short to;
-    @OneToMany(mappedBy = "discussionThreadId")
-    private Collection<Comments> commentsCollection;
+    @Column(name = "tagid")
+    private String tagid;
+    @JoinColumn(name = "typeid", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private DiscussionThreadTypes typeid;
 
     public DiscussionThread() {
     }
@@ -56,10 +55,10 @@ public class DiscussionThread implements Serializable {
         this.id = id;
     }
 
-    public DiscussionThread(Long id, short from, short to) {
+    public DiscussionThread(Long id, String relatedtext, String tagid) {
         this.id = id;
-        this.from = from;
-        this.to = to;
+        this.relatedtext = relatedtext;
+        this.tagid = tagid;
     }
 
     public Long getId() {
@@ -70,29 +69,28 @@ public class DiscussionThread implements Serializable {
         this.id = id;
     }
 
-    public short getFrom() {
-        return from;
+    public String getRelatedtext() {
+        return relatedtext;
     }
 
-    public void setFrom(short from) {
-        this.from = from;
+    public void setRelatedtext(String relatedtext) {
+        this.relatedtext = relatedtext;
     }
 
-    public short getTo() {
-        return to;
+    public String getTagid() {
+        return tagid;
     }
 
-    public void setTo(short to) {
-        this.to = to;
+    public void setTagid(String tagid) {
+        this.tagid = tagid;
     }
 
-    @XmlTransient
-    public Collection<Comments> getCommentsCollection() {
-        return commentsCollection;
+    public DiscussionThreadTypes getTypeid() {
+        return typeid;
     }
 
-    public void setCommentsCollection(Collection<Comments> commentsCollection) {
-        this.commentsCollection = commentsCollection;
+    public void setTypeid(DiscussionThreadTypes typeid) {
+        this.typeid = typeid;
     }
 
     @Override

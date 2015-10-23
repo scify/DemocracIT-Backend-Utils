@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OrganizationLkp.findByUrlInitial", query = "SELECT o FROM OrganizationLkp o WHERE o.urlInitial = :urlInitial"),
     @NamedQuery(name = "OrganizationLkp.findByUrlCollapsed", query = "SELECT o FROM OrganizationLkp o WHERE o.urlCollapsed = :urlCollapsed")})
 public class OrganizationLkp implements Serializable {
+    @Column(name = "group_title")
+    private String groupTitle;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -127,6 +129,14 @@ public class OrganizationLkp implements Serializable {
     @Override
     public String toString() {
         return "org.scify.democracit.dao.model.OrganizationLkp[ id=" + id + " ]";
+    }
+
+    public String getGroupTitle() {
+        return groupTitle;
+    }
+
+    public void setGroupTitle(String groupTitle) {
+        this.groupTitle = groupTitle;
     }
     
 }

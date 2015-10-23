@@ -37,6 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ArticleEntities.findByConsultationId", query = "SELECT a FROM ArticleEntities a WHERE a.consultationId = :consultationId"),
     @NamedQuery(name = "ArticleEntities.findByArticleTextWithUrl", query = "SELECT a FROM ArticleEntities a WHERE a.articleTextWithUrl = :articleTextWithUrl")})
 public class ArticleEntities implements Serializable {
+    @Basic(optional = false)
+    @Column(name = "entity_law")
+    private String entityLaw;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -176,6 +179,14 @@ public class ArticleEntities implements Serializable {
     @Override
     public String toString() {
         return "org.scify.democracit.dao.model.ArticleEntities[ id=" + id + " ]";
+    }
+
+    public String getEntityLaw() {
+        return entityLaw;
+    }
+
+    public void setEntityLaw(String entityLaw) {
+        this.entityLaw = entityLaw;
     }
     
 }

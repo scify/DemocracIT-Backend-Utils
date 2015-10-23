@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.scify.democracit.dao.jpacontroller;
 
 import java.io.Serializable;
@@ -18,15 +17,17 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import org.scify.democracit.dao.jpacontroller.exceptions.IllegalOrphanException;
 import org.scify.democracit.dao.jpacontroller.exceptions.NonexistentEntityException;
 import org.scify.democracit.dao.model.Articles;
+import org.scify.democracit.dao.model.Comments;
 import org.scify.democracit.dao.model.Consultation;
 import org.scify.democracit.dao.model.RelevantMaterial;
 
 /**
  *
- * @author George K.<gkiom@iit.demokritos.gr>
+ * @author George K. <gkiom@scify.org>
  */
 public class ConsultationJpaController implements Serializable {
 
@@ -330,5 +331,26 @@ public class ConsultationJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public Collection<Comments> findCommentsPerConsultation(Consultation consultation) {
+        EntityManager em = getEntityManager();
+        Collection<Comments> res = new ArrayList();
+        String SQL
+                = "select c.id, c.url_source, c.article_id, c.parent_id, c.comment, c.source_type_id, c.discussion_thread_id, \n"
+                + "c.user_id, c.date_added, c.revision, c.depth, c.annotatedtext FROM comments c\n"
+                + "INNER JOIN articles a ON a.id = c.article_id INNER JOIN consultation con ON con.id = a.consultation_id \n"
+                + "WHERE con.id = ?1";
+        try {
+            Query q = em.createNativeQuery(SQL, Comments.class);
+            q.setParameter(1, consultation.getId());
+            res = q.getResultList();
+            return res;
+        } catch (NoResultException ex) {
+            System.err.println(String.format("No result for consultation: %s", consultation.toString()));
+            System.err.println(ex.toString());
+        } finally {
+            em.close();
+        }
+        return res;
+    }
 }

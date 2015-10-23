@@ -102,7 +102,7 @@ public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsRe
                 String comment = resultSet.getString(5);
                 long source_type_id = resultSet.getLong(6);
                 long discussion_thread_id = resultSet.getLong(7);
-                long user_id = resultSet.getLong(8);
+                String user_id = resultSet.getString(8);
                 Timestamp date_added = resultSet.getTimestamp(9);
                 // if content is OK
                 if (comment != null
@@ -114,7 +114,7 @@ public class CommentsDSRetriever extends AbstractDSAccess implements ICommentsRe
                     tmp.setComment(comment);
                     tmp.setSourceTypeId(new SourceTypeLkp((short) source_type_id));
                     tmp.setDiscussionThreadId(new DiscussionThread(discussion_thread_id));
-                    tmp.setUserId(new Users(user_id));
+                    tmp.setUserId(user_id);
                     tmp.setDateAdded(date_added);
                     // add to result list
                     lsRes.add(tmp);

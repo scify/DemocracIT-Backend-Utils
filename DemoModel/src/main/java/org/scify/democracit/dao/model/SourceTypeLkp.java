@@ -3,13 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.scify.democracit.dao.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,14 +14,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author George K.<gkiom@iit.demokritos.gr>
+ * @author George K. <gkiom@scify.org>
  */
 @Entity
 @Table(name = "source_type_lkp")
@@ -42,10 +37,6 @@ public class SourceTypeLkp implements Serializable {
     private Short id;
     @Column(name = "source_type")
     private String sourceType;
-    @OneToMany(mappedBy = "sourceTypeId")
-    private Collection<Users> usersCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sourceTypeId")
-    private Collection<Comments> commentsCollection;
 
     public SourceTypeLkp() {
     }
@@ -68,24 +59,6 @@ public class SourceTypeLkp implements Serializable {
 
     public void setSourceType(String sourceType) {
         this.sourceType = sourceType;
-    }
-
-    @XmlTransient
-    public Collection<Users> getUsersCollection() {
-        return usersCollection;
-    }
-
-    public void setUsersCollection(Collection<Users> usersCollection) {
-        this.usersCollection = usersCollection;
-    }
-
-    @XmlTransient
-    public Collection<Comments> getCommentsCollection() {
-        return commentsCollection;
-    }
-
-    public void setCommentsCollection(Collection<Comments> commentsCollection) {
-        this.commentsCollection = commentsCollection;
     }
 
     @Override

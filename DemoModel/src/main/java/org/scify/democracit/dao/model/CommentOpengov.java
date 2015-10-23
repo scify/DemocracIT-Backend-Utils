@@ -31,6 +31,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CommentOpengov.findByFullname", query = "SELECT c FROM CommentOpengov c WHERE c.fullname = :fullname"),
     @NamedQuery(name = "CommentOpengov.findById", query = "SELECT c FROM CommentOpengov c WHERE c.id = :id")})
 public class CommentOpengov implements Serializable {
+    @Column(name = "report_name")
+    private String reportName;
+    @Column(name = "report_type")
+    private Integer reportType;
+    @Column(name = "link_url")
+    private String linkUrl;
     private static final long serialVersionUID = 1L;
     @Column(name = "opengovid")
     private Integer opengovid;
@@ -106,6 +112,30 @@ public class CommentOpengov implements Serializable {
     @Override
     public String toString() {
         return "org.scify.democracit.dao.model.CommentOpengov[ id=" + id + " ]";
+    }
+
+    public String getReportName() {
+        return reportName;
+    }
+
+    public void setReportName(String reportName) {
+        this.reportName = reportName;
+    }
+
+    public Integer getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(Integer reportType) {
+        this.reportType = reportType;
+    }
+
+    public String getLinkUrl() {
+        return linkUrl;
+    }
+
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
     
 }

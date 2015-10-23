@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.scify.democracit.dao.jpacontroller;
 
 import java.io.Serializable;
@@ -22,7 +21,7 @@ import org.scify.democracit.dao.model.OrganizationLkp;
 
 /**
  *
- * @author George K.<gkiom@iit.demokritos.gr>
+ * @author George K. <gkiom@scify.org>
  */
 public class OrganizationLkpJpaController implements Serializable {
 

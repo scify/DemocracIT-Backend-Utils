@@ -16,7 +16,6 @@ import org.scify.democracit.dao.model.Articles;
 import org.scify.democracit.dao.model.Comments;
 import org.scify.democracit.dao.model.DiscussionThread;
 import org.scify.democracit.dao.model.SourceTypeLkp;
-import org.scify.democracit.dao.model.Users;
 import org.scify.democracit.demoutils.DataAccess.DBUtils.SqlQueryBlockIterable;
 import org.scify.democracit.demoutils.DataAccess.DBUtils.SqlQueryBlockIterator;
 
@@ -68,7 +67,7 @@ public class AbstractDBCAccess {
                 String comment = next.getString(5);
                 long source_type_id = next.getLong(6);
                 long discussion_thread_id = next.getLong(7);
-                long user_id = next.getLong(8);
+                String user_id = next.getString(8);
                 Timestamp date_added = next.getTimestamp(9);
                 // if content is OK
                 if (comment != null
@@ -81,7 +80,7 @@ public class AbstractDBCAccess {
                     tmp.setComment(comment);
                     tmp.setSourceTypeId(new SourceTypeLkp((short) source_type_id));
                     tmp.setDiscussionThreadId(new DiscussionThread(discussion_thread_id));
-                    tmp.setUserId(new Users(user_id));
+                    tmp.setUserId(user_id);
                     tmp.setDateAdded(date_added);
                     return tmp;
                 }

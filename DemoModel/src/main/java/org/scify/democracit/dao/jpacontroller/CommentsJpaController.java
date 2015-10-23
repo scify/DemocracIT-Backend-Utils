@@ -11,9 +11,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.scify.democracit.dao.model.CommentOpengov;
-import org.scify.democracit.dao.model.Users;
-import org.scify.democracit.dao.model.SourceTypeLkp;
-import org.scify.democracit.dao.model.DiscussionThread;
 import org.scify.democracit.dao.model.Comments;
 import org.scify.democracit.dao.model.Articles;
 import org.scify.democracit.dao.model.CommentTerm;
@@ -27,7 +24,7 @@ import org.scify.democracit.dao.jpacontroller.exceptions.NonexistentEntityExcept
 
 /**
  *
- * @author George K.<gkiom@iit.demokritos.gr>
+ * @author George K. <gkiom@scify.org>
  */
 public class CommentsJpaController implements Serializable {
 
@@ -55,21 +52,6 @@ public class CommentsJpaController implements Serializable {
             if (commentOpengov != null) {
                 commentOpengov = em.getReference(commentOpengov.getClass(), commentOpengov.getId());
                 comments.setCommentOpengov(commentOpengov);
-            }
-            Users userId = comments.getUserId();
-            if (userId != null) {
-                userId = em.getReference(userId.getClass(), userId.getId());
-                comments.setUserId(userId);
-            }
-            SourceTypeLkp sourceTypeId = comments.getSourceTypeId();
-            if (sourceTypeId != null) {
-                sourceTypeId = em.getReference(sourceTypeId.getClass(), sourceTypeId.getId());
-                comments.setSourceTypeId(sourceTypeId);
-            }
-            DiscussionThread discussionThreadId = comments.getDiscussionThreadId();
-            if (discussionThreadId != null) {
-                discussionThreadId = em.getReference(discussionThreadId.getClass(), discussionThreadId.getId());
-                comments.setDiscussionThreadId(discussionThreadId);
             }
             Comments parentId = comments.getParentId();
             if (parentId != null) {
@@ -102,18 +84,6 @@ public class CommentsJpaController implements Serializable {
                 }
                 commentOpengov.setComments(comments);
                 commentOpengov = em.merge(commentOpengov);
-            }
-            if (userId != null) {
-                userId.getCommentsCollection().add(comments);
-                userId = em.merge(userId);
-            }
-            if (sourceTypeId != null) {
-                sourceTypeId.getCommentsCollection().add(comments);
-                sourceTypeId = em.merge(sourceTypeId);
-            }
-            if (discussionThreadId != null) {
-                discussionThreadId.getCommentsCollection().add(comments);
-                discussionThreadId = em.merge(discussionThreadId);
             }
             if (parentId != null) {
                 parentId.getCommentsCollection().add(comments);
@@ -157,12 +127,6 @@ public class CommentsJpaController implements Serializable {
             Comments persistentComments = em.find(Comments.class, comments.getId());
             CommentOpengov commentOpengovOld = persistentComments.getCommentOpengov();
             CommentOpengov commentOpengovNew = comments.getCommentOpengov();
-            Users userIdOld = persistentComments.getUserId();
-            Users userIdNew = comments.getUserId();
-            SourceTypeLkp sourceTypeIdOld = persistentComments.getSourceTypeId();
-            SourceTypeLkp sourceTypeIdNew = comments.getSourceTypeId();
-            DiscussionThread discussionThreadIdOld = persistentComments.getDiscussionThreadId();
-            DiscussionThread discussionThreadIdNew = comments.getDiscussionThreadId();
             Comments parentIdOld = persistentComments.getParentId();
             Comments parentIdNew = comments.getParentId();
             Articles articleIdOld = persistentComments.getArticleId();
@@ -192,18 +156,6 @@ public class CommentsJpaController implements Serializable {
             if (commentOpengovNew != null) {
                 commentOpengovNew = em.getReference(commentOpengovNew.getClass(), commentOpengovNew.getId());
                 comments.setCommentOpengov(commentOpengovNew);
-            }
-            if (userIdNew != null) {
-                userIdNew = em.getReference(userIdNew.getClass(), userIdNew.getId());
-                comments.setUserId(userIdNew);
-            }
-            if (sourceTypeIdNew != null) {
-                sourceTypeIdNew = em.getReference(sourceTypeIdNew.getClass(), sourceTypeIdNew.getId());
-                comments.setSourceTypeId(sourceTypeIdNew);
-            }
-            if (discussionThreadIdNew != null) {
-                discussionThreadIdNew = em.getReference(discussionThreadIdNew.getClass(), discussionThreadIdNew.getId());
-                comments.setDiscussionThreadId(discussionThreadIdNew);
             }
             if (parentIdNew != null) {
                 parentIdNew = em.getReference(parentIdNew.getClass(), parentIdNew.getId());
@@ -236,30 +188,6 @@ public class CommentsJpaController implements Serializable {
                 }
                 commentOpengovNew.setComments(comments);
                 commentOpengovNew = em.merge(commentOpengovNew);
-            }
-            if (userIdOld != null && !userIdOld.equals(userIdNew)) {
-                userIdOld.getCommentsCollection().remove(comments);
-                userIdOld = em.merge(userIdOld);
-            }
-            if (userIdNew != null && !userIdNew.equals(userIdOld)) {
-                userIdNew.getCommentsCollection().add(comments);
-                userIdNew = em.merge(userIdNew);
-            }
-            if (sourceTypeIdOld != null && !sourceTypeIdOld.equals(sourceTypeIdNew)) {
-                sourceTypeIdOld.getCommentsCollection().remove(comments);
-                sourceTypeIdOld = em.merge(sourceTypeIdOld);
-            }
-            if (sourceTypeIdNew != null && !sourceTypeIdNew.equals(sourceTypeIdOld)) {
-                sourceTypeIdNew.getCommentsCollection().add(comments);
-                sourceTypeIdNew = em.merge(sourceTypeIdNew);
-            }
-            if (discussionThreadIdOld != null && !discussionThreadIdOld.equals(discussionThreadIdNew)) {
-                discussionThreadIdOld.getCommentsCollection().remove(comments);
-                discussionThreadIdOld = em.merge(discussionThreadIdOld);
-            }
-            if (discussionThreadIdNew != null && !discussionThreadIdNew.equals(discussionThreadIdOld)) {
-                discussionThreadIdNew.getCommentsCollection().add(comments);
-                discussionThreadIdNew = em.merge(discussionThreadIdNew);
             }
             if (parentIdOld != null && !parentIdOld.equals(parentIdNew)) {
                 parentIdOld.getCommentsCollection().remove(comments);
@@ -352,21 +280,6 @@ public class CommentsJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Users userId = comments.getUserId();
-            if (userId != null) {
-                userId.getCommentsCollection().remove(comments);
-                userId = em.merge(userId);
-            }
-            SourceTypeLkp sourceTypeId = comments.getSourceTypeId();
-            if (sourceTypeId != null) {
-                sourceTypeId.getCommentsCollection().remove(comments);
-                sourceTypeId = em.merge(sourceTypeId);
-            }
-            DiscussionThread discussionThreadId = comments.getDiscussionThreadId();
-            if (discussionThreadId != null) {
-                discussionThreadId.getCommentsCollection().remove(comments);
-                discussionThreadId = em.merge(discussionThreadId);
-            }
             Comments parentId = comments.getParentId();
             if (parentId != null) {
                 parentId.getCommentsCollection().remove(comments);
@@ -436,4 +349,5 @@ public class CommentsJpaController implements Serializable {
             em.close();
         }
     }
+    
 }
