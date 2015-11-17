@@ -6,6 +6,8 @@
 package org.scify.democracit.dao.jpacontroller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,6 +20,7 @@ import javax.persistence.criteria.Root;
 import org.scify.democracit.dao.jpacontroller.exceptions.NonexistentEntityException;
 import org.scify.democracit.dao.model.CommentTerm;
 import org.scify.democracit.dao.model.Comments;
+import org.scify.democracit.dao.model.Consultation;
 
 /**
  *
@@ -183,4 +186,27 @@ public class CommentTermJpaController implements Serializable {
         }
     }
 
+    public Collection<CommentTerm> findCommentTermsPerConsultation(Consultation consultation) {
+        EntityManager em = getEntityManager();
+        Collection<CommentTerm> res = new ArrayList();
+        String SQL
+                = "SELECT ct.id, ct.term_string, ct.term_frequency, ct.comment_id, ct.active, ct.n_gram_order "
+                + "FROM comment_term ct "
+                + "INNER JOIN comments co ON co.id = ct.comment_id \n"
+                + "INNER JOIN articles a ON a.id = co.article_id "
+                + "INNER JOIN consultation c ON c.id = a.consultation_id\n"
+                + "WHERE c.id = ?1";
+        try {
+            Query q = em.createNativeQuery(SQL, CommentTerm.class);
+            q.setParameter(1, consultation.getId());
+            res = q.getResultList();
+            return res;
+        } catch (NoResultException ex) {
+            System.err.println(String.format("No result for consultation: %s", consultation.toString()));
+            System.err.println(ex.toString());
+        } finally {
+            em.close();
+        }
+        return res;
+    }
 }
